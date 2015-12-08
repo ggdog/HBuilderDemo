@@ -1,0 +1,39 @@
+<!DOCTYPE html>a
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			document.addEventListener("plusready",function(){
+
+				var curr = document.getElementById("curr");
+				
+				plus.accelerometer.getCurrentAcceleration(function(a){
+					curr.innerText ="accler\nx:"+a.xAxis+"\ny:"+a.yAxis+"\nz:"+a.zAxis;
+				});
+			},false);
+			
+			document.addEventListener("plusready",function(){
+				var watch = document.getElementById("watch");
+				
+				plus.accelerometer.watchAcceleration(function(a){
+					watch.innerText = "AccWatch::\nx"+a.xAxis+"\ny"+a.yAxis+"\nz:"+a.zAxis;
+				},function(e){
+					alert("excepton "+e.message);
+				});
+				
+			},false)
+		</script>
+	</head>
+	<body>
+		android ceeleremoter demo
+		
+		<p id="curr" style="margin: 50px;"></p>
+		
+		<p id="watch" style="margin: 50px;"></p>
+		
+	</body>
+	<footer>
+		<button style="position: absolute; bottom: 20px; "  onclick="location.href='index.html'">index</button>
+	</footer>
+</html>

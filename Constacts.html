@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			document.addEventListener("plusready", function() {
+				plus.contacts.getAddressBook(plus.contacts.ADDRESSBOOK_PHONE, function(address) {
+					var address = document.getElementById("address");
+					address.innerText = "sucess get Phone Address";
+					//alert("get address sucess");
+				}, function(e) {
+					alert("获取失败" + e.message);
+				});
+			}, false);
+
+			function addConact() {
+				// 监听plusready事件  
+				document.addEventListener("plusready", function() {
+					// 扩展API加载完毕，现在可以正常调用扩展API
+					plus.contacts.getAddressBook(plus.contacts.ADDRESSBOOK_PHONE, function(addressbook) {
+						// 向通讯录中添加联系人
+						var contact = addressbook.create();
+						contact.name = {
+							givenName: "王安"
+						};
+						contact.phoneNumbers = [{
+							type: "手机",
+							value: "88888888",
+							preferred: true
+						}];
+						contact.save();
+					}, function(e) {
+						alert("Get address book failed: " + e.message);
+					});
+				}, false);}
+			
+			function FindContact(){
+				plus.contacts.getAddressBook(plus.contacts.ADDRESSBOOK_PHONE,function(addressbook){
+					addressbook.find(["displayName","phoneNumbers"],function(contacts){
+						alert("Contact name:"+contacts[1].displayName+"\nContact Num::"+contacts[1].phoneNumbers.get);
+					},function(){
+						alert("error");
+					},{multiple:true});
+				},function(e){
+					alert("find contact failed");
+				})
+			}
+			
+			function DeviceBeep(){
+				if(window.plus){
+					plus.device.beep(2);
+					plus.device.vibrate();
+					//alert("beep twice");
+				}else{
+					document.addEventListener("plusready",function(){
+					plus.device.beep(3);
+				},false);
+				}
+
+			}
+		</script>
+	</head>
+
+	<body>
+		Android Constans Demo
+
+		<br /> start get address...
+		<br />
+		<p id="address"></p>
+		<br />
+		<input type="button" value="index" onclick="location.href='index.html'" style="position:absolute;bottom: 10px; width: 100px;height: 50px;" />
+		<br />
+		<input type="button" style="width: 100px; height: 50px; margin: 50px;" value="AddContact" onclick="addConact()" />
+
+		<input type="button" style="width: 100px; height: 50px;" value="FindContanc" onclick="FindContact()" />
+		<input type="button" style="width: 100px; height: 50px;" value="DevieceBeep" onclick="DeviceBeep()" />
+	</body>
+
+</html>
